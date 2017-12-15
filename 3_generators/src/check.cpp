@@ -13,10 +13,10 @@ bool checkFrequencyCrit(){
 	ifstream f(FILENAME);
 	if(f.is_open()){
 		double temp = 0;
-		int alpha = 0;
+		int ind = 0;
 		while(f >> temp){
-			alpha = (int) (temp*10) % 10;
-			v[alpha]++;
+			ind = (int) (temp*10) % 10;
+			v[ind]++;
 		}
 	} else {
 		throw "no file";
@@ -43,11 +43,11 @@ bool checkPairCrit(){
 	if(f.is_open()){
 		double t1 = 0;
 		double t2 = 0;
-		int alpha = 0, beta = 0;
+		int ind1 = 0, ind2 = 0;
 		while(f >> t1 && f >> t2){
-			alpha = (int) (t1*10) % 10;
-			beta = (int) (t2*10) % 10;
-			v[alpha * 10 + beta]++;
+			ind1 = (int) (t1*10) % 10;
+			ind2 = (int) (t2*10) % 10;
+			v[ind1 * 10 + ind2]++;
 		}
 	} else {
 		throw "no file";
@@ -84,12 +84,12 @@ bool checkSeriesCrit(){
 	if(f.is_open()){
 		double t1 = 0;
 		double t2 = 0;
-		int alpha = 0, beta = 0;
+		int ind1 = 0, ind2 = 0;
 		while(f >> t1 && f >> t2) {
-			alpha = (int) (t1 * 10) % 10;
-			beta = (int) (t2 * 10) % 10;
+			ind1 = (int) (t1 * 10) % 10;
+			ind2 = (int) (t2 * 10) % 10;
 
-			if(alpha != beta){
+			if(ind1 != ind2){
 				v[l]++;
 				l = 0;
 			} else {
@@ -117,30 +117,29 @@ bool checkSeriesCrit(){
 	return stat < hiStat;
 }
 
-#include <iostream>
 bool checkPokerCrit(){
 	vector<int> v(0);
 	v.assign(5, 0);
-	vector<int> beta(0);
-	beta.assign(D, 0);
+	vector<int> ind2(0);
+	ind2.assign(D, 0);
 	vector<double> p(0);
 
 	ifstream f(FILENAME);
 	if(f.is_open()){
 		unsigned int count = 0;
-		unsigned int alpha = 0;
+		unsigned int ind1 = 0;
 		double temp = 0;
 		for(unsigned int i = 0; i < AMOUNT/5; ++i){
 			count = 0;
-			beta.clear();
-			beta.assign(D, 0);
+			ind2.clear();
+			ind2.assign(D, 0);
 			for(unsigned int j = 0; j < 5; ++j){
 				f >> temp;
-				alpha = (int) (temp * 10) % 10;
-				beta[alpha]++;
+				ind1 = (int) (temp * 10) % 10;
+				ind2[ind1]++;
 			}
-			for(unsigned int j = 0; j < beta.size(); ++j){
-				if(beta[j] != 0){
+			for(unsigned int j = 0; j < ind2.size(); ++j){
+				if(ind2[j] != 0){
 					count++;
 				}
 			}
@@ -186,7 +185,11 @@ double hiPow2(const double alpha, const int nu){
 }
 
 unsigned int sterlingNums(const unsigned int n, const unsigned int k){
-	if (n == 0 || n == k) return 1;
-    if (k == 0) return 0;
+	if (n == 0 || n == k) {
+		return 1;
+	}
+	if (k == 0) {
+    	return 0;
+	}
     return sterlingNums(n - 1, k - 1) + k * sterlingNums(n - 1, k);
 }
