@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 x = []
 y = []
 
-eps = 1e-3
+eps = 1e-1
 
 cookie_temp = 27.0
 tea_temp = 100
@@ -21,5 +21,5 @@ while(counter < t/eps):
 	y.append(cur_temp)
 	counter += 1
 
-plt.plot(x, y, '-')
+plt.plot(x, y, '-o')
 plt.show()
